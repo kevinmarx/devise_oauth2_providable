@@ -8,6 +8,7 @@ class CreateDeviseOauth2ProvidableSchema < ActiveRecord::Migration
       t.string :secret
       t.timestamps
     end
+
     change_table :oauth2_clients do |t|
       t.index :identifier, :unique => true
     end
@@ -18,6 +19,7 @@ class CreateDeviseOauth2ProvidableSchema < ActiveRecord::Migration
       t.datetime :expires_at
       t.timestamps
     end
+
     change_table :oauth2_access_tokens do |t|
       t.index :token, :unique => true
       t.index :expires_at
@@ -31,6 +33,7 @@ class CreateDeviseOauth2ProvidableSchema < ActiveRecord::Migration
       t.datetime :expires_at
       t.timestamps
     end
+
     change_table :oauth2_refresh_tokens do |t|
       t.index :token, :unique => true
       t.index :expires_at
@@ -44,6 +47,7 @@ class CreateDeviseOauth2ProvidableSchema < ActiveRecord::Migration
       t.datetime :expires_at
       t.timestamps
     end
+
     change_table :oauth2_authorization_codes do |t|
       t.index :token, :unique => true
       t.index :expires_at
