@@ -1,32 +1,33 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "devise/oauth2_providable/version"
 
-Gem::Specification.new do |s|
-  s.name        = "devise_oauth2_providable"
-  s.version     = Devise::Oauth2Providable::VERSION
-  s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Ryan Sonnek"]
-  s.email       = ["ryan@socialcast.com"]
-  s.homepage    = ""
-  s.summary     = %q{OAuth2 Provider for Rails3 applications}
-  s.description = %q{Rails3 engine that adds OAuth2 Provider support to any application built with Devise authentication}
+Gem::Specification.new do |spec|
+  spec.name        = "devise_oauth2_providable"
+  spec.version     = Devise::Oauth2Providable::VERSION
+  spec.platform    = Gem::Platform::RUBY
+  spec.authors     = ["Ryan Sonnek"]
+  spec.email       = ["ryan@socialcast.com"]
+  spec.homepage    = ""
+  spec.summary     = %q{OAuth2 Provider for Rails applications}
+  spec.description = %q{Rails3 engine that adds OAuth2 Provider support to any application built with Devise authentication}
 
-  s.rubyforge_project = "devise_oauth2_providable"
+  spec.files         = `git ls-files -z`.split("\x0")
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
 
-  s.add_runtime_dependency(%q<rails>, [">= 3.1.0"])
-  s.add_runtime_dependency(%q<devise>, [">= 1.4.3"])
-  s.add_runtime_dependency(%q<rack-oauth2>, ["~> 0.11.0"])
-  s.add_development_dependency(%q<rspec-rails>, ['2.6.1'])
-  s.add_development_dependency(%q<sqlite3>, ['1.3.5'])
-  s.add_development_dependency(%q<shoulda-matchers>, ['1.0.0.beta3'])
-  s.add_development_dependency(%q<pry>, ['0.9.6.2'])
-  s.add_development_dependency(%q<factory_girl>, ['2.2.0'])
-  s.add_development_dependency(%q<factory_girl_rspec>, ['0.0.1'])
-  s.add_development_dependency(%q<rake>, ['0.9.2.2'])
+  spec.add_dependency "rails", "> 4.0.0"
+  spec.add_dependency "devise"
+  spec.add_dependency "rack-oauth2"
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  spec.add_development_dependency 'rspec-rails', "~> 2.14.2"
+  # spec.add_development_dependency 'minitest'
+  spec.add_development_dependency 'shoulda-matchers'
+  spec.add_development_dependency 'shoulda-kept-assign-to'
+  spec.add_development_dependency "database_cleaner", "~> 1.3.0"
+  spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "factory_girl_rails"
 end
