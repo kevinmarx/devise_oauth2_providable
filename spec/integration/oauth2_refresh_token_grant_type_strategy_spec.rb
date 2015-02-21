@@ -4,8 +4,8 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
   describe 'POST /oauth2/token' do
     describe 'with grant_type=refresh_token' do
       context 'with valid params' do
-        with :client
-        with :user
+        let(:user) { FactoryGirl.create :user }
+        let(:client) { FactoryGirl.create :client }
         before do
           @refresh_token = client.refresh_tokens.create! :user => user
           params = {
@@ -32,11 +32,11 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         end
       end
       context 'with expired refresh_token' do
-        with :user
-        with :client
+        let(:user) { FactoryGirl.create :user }
+        let(:client) { FactoryGirl.create :client }
         before do
           timenow = 2.days.from_now
-          Time.stub!(:now).and_return(timenow)
+          allow(Time).to receive(:now).and_return(timenow)
           @refresh_token = client.refresh_tokens.create! :user => user
           params = {
             :grant_type => 'refresh_token',
@@ -44,7 +44,7 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
             :client_secret => client.secret,
             :refresh_token => @refresh_token.token
           }
-          Time.stub!(:now).and_return(timenow + 2.months)
+          allow(Time).to receive(:now).and_return(timenow + 2.months)
 
           post '/oauth2/token', params
         end
@@ -59,8 +59,8 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         end
       end
       context 'with invalid refresh_token' do
-        with :user
-        with :client
+        let(:user) { FactoryGirl.create :user }
+        let(:client) { FactoryGirl.create :client }
         before do
           @refresh_token = client.refresh_tokens.create! :user => user
           params = {
@@ -85,8 +85,8 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         end
       end
       context 'with invalid client_id' do
-        with :user
-        with :client
+        let(:user) { FactoryGirl.create :user }
+        let(:client) { FactoryGirl.create :client }
         before do
           @refresh_token = client.refresh_tokens.create! :user => user
           params = {
@@ -109,8 +109,8 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         end
       end
       context 'with invalid client_secret' do
-        with :user
-        with :client
+        let(:user) { FactoryGirl.create :user }
+        let(:client) { FactoryGirl.create :client }
         before do
           @refresh_token = client.refresh_tokens.create! :user => user
           params = {
