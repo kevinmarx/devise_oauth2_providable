@@ -4,20 +4,17 @@ describe Devise::Oauth2Providable::AccessToken do
   it { Devise::Oauth2Providable::AccessToken.table_name.should == 'oauth2_access_tokens' }
 
   describe 'basic access token instance' do
-    with :client
+    let(:client) { FactoryGirl.create :client }
     subject do
       Devise::Oauth2Providable::AccessToken.create! :client => client
     end
     it { should validate_presence_of :token }
     it { should validate_uniqueness_of :token }
     it { should belong_to :user }
-    it { should allow_mass_assignment_of :user }
     it { should belong_to :client }
-    it { should allow_mass_assignment_of :client }
     it { should validate_presence_of :client }
     it { should validate_presence_of :expires_at }
     it { should belong_to :refresh_token }
-    it { should allow_mass_assignment_of :refresh_token }
     it { should have_db_index :client_id }
     it { should have_db_index :user_id }
     it { should have_db_index(:token).unique(true) }
@@ -26,7 +23,7 @@ describe Devise::Oauth2Providable::AccessToken do
 
   describe '#expires_at' do
     context 'when refresh token does not expire before access token' do
-      with :client
+      let(:client) { FactoryGirl.create :client }
       before do
         @later = 1.year.from_now
         @refresh_token = client.refresh_tokens.create!
@@ -38,7 +35,7 @@ describe Devise::Oauth2Providable::AccessToken do
       end
     end
     context 'when refresh token expires before access token' do
-      with :client
+      let(:client) { FactoryGirl.create :client }
       before do
         @soon = 1.minute.from_now
         @refresh_token = client.refresh_tokens.create!
