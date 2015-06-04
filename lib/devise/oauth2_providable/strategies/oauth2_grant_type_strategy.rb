@@ -3,6 +3,11 @@ require 'devise/strategies/base'
 module Devise
   module Strategies
     class Oauth2GrantTypeStrategy < Authenticatable
+
+      def store?
+        false
+      end
+
       def valid?
         params[:controller] == 'devise/oauth2_providable/tokens' && request.post? && params[:grant_type] == grant_type
       end

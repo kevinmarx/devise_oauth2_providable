@@ -3,10 +3,16 @@ require 'devise/strategies/base'
 module Devise
   module Strategies
     class Oauth2Providable < Authenticatable
+
+      def store?
+        false
+      end
+
       def valid?
         @req = Rack::OAuth2::Server::Resource::Bearer::Request.new(env)
         @req.oauth2?
       end
+
       def authenticate!
         @req.setup!
         token = Devise::Oauth2Providable::AccessToken.find_by_token @req.access_token
