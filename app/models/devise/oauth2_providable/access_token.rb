@@ -4,6 +4,9 @@ class Devise::Oauth2Providable::AccessToken < ActiveRecord::Base
   before_validation :restrict_expires_at, :on => :create, :if => :refresh_token
   belongs_to :refresh_token
 
+  scope :unexpired, -> { where('expires_at > ?', Time.zone.now) }
+  scope :user_id, ->(user_id){ where(user_id: user_id) }
+
   def token_response
     response = {
       :access_token => token,
