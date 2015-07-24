@@ -9,6 +9,10 @@ class Devise::Oauth2Providable::Client < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :identifier, :presence => true, :uniqueness => true
 
+  def expire_tokens_for_user(user)
+    access_tokens.unexpired.user_id(user.id).update_all(expires_at: Time.zone.now)
+  end
+
   private
 
   def init_identifier
